@@ -1,17 +1,23 @@
 spring:
   datasource:
-    url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}
+    url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}?useSSL=false&serverTimezone=UTC
     username: ${MYSQLUSER}
     password: ${MYSQLPASSWORD}
-    driverClassName: "com.mysql.cj.jdbc.Driver"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
+
   servlet:
     multipart:
       max-file-size: 500MB
       max-request-size: 500MB
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -23,6 +29,7 @@ spring:
           auth: true
           starttls:
             enable: true
+
   security:
     oauth2:
       client:
@@ -38,6 +45,7 @@ spring:
         provider:
           google:
             issuer-uri: https://accounts.google.com
+
 server:
   port: 8888
   servlet:
@@ -46,14 +54,17 @@ server:
       charset: UTF-8
       force: true
       enable: true
+
 jwt:
   signerKey: ${JWT_SIGNERKEY}
   valid-duration: 7200
   refreshable-duration: 604800
+
 cloudinary:
   cloud-name: ${CLOUDINARY_CLOUD_NAME}
   api-key: ${CLOUDINARY_API_KEY}
   api-secret: ${CLOUDINARY_API_SECRET}
+
 app:
   base-url: "http://localhost:8888"
   frontend:
@@ -62,5 +73,6 @@ app:
     redirect-url:
       success: "http://localhost:4200/login-success"
       error: "http://localhost:4200/login-error"
+
 cookie:
   secure: false
