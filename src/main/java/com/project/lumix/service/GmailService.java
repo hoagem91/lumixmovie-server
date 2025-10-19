@@ -7,13 +7,9 @@ import com.sendgrid.SendGrid;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -22,7 +18,6 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 public class GmailService {
-    private final JavaMailSender gmailSender;
 
     @Value("${sendgrid.api.from.email}")
     private String fromEmail;
