@@ -1,5 +1,12 @@
 package com.project.lumix.service;
 
+import com.sendgrid.Method;
+import com.sendgrid.Request;
+import com.sendgrid.Response;
+import com.sendgrid.SendGrid;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -9,23 +16,31 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class GmailService {
     private final JavaMailSender gmailSender;
 
-    @Value("${spring.mail.username}")
+    @Value("${sendgrid.api.from.email}")
     private String fromEmail;
 
     @Value("${app.base-url}")
     private String baseUrl;
 
+    @Value("${sendgrid.api.key}")
+    private String sendGridApiKey;
 
     public void sendVerificationEmail(String toEmail, String token) {
         String verificationUrl = baseUrl + "/lumix/auth/verify?token=" + token;
+
+        Email from = new Email(fromEmail, "Lumix");
+        Email to = new Email(toEmail);
         String subject = "Xác thực tài khoản Lumix của bạn";
-        String body = """
+
+        String htmlContent = """
                 <html>
                   <body>
                     <h3>Cảm ơn bạn đã đăng ký tài khoản tại Lumix.</h3>
@@ -37,18 +52,21 @@ public class GmailService {
                 </html>
                 """.formatted(verificationUrl);
 
-        try {
-            MimeMessage message = gmailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-            helper.setFrom(new InternetAddress(fromEmail, "Lumix", "UTF-8"));
-            helper.setTo(toEmail);
-            helper.setSubject(subject);
-            helper.setText(body, true);
+        Content content = new Content("text/html", htmlContent);
+        Mail mail = new Mail(from, subject, to, content);
 
-            gmailSender.send(message);
-            log.info("Đã gửi email xác thực thành công tới: {}", toEmail);
-        } catch (Exception e) {
-            log.error("Lỗi khi gửi email xác thực tới {}: {}", toEmail, e.getMessage(), e);
+        SendGrid sg = new SendGrid(sendGridApiKey);
+        Request request = new Request();
+
+        try {
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            Response response = sg.api(request);
+
+            log.info("Đã gửi email xác thực tới {} (status: {})", toEmail, response.getStatusCode());
+        } catch (IOException e) {
+            log.error("Lỗi khi gửi email xác thực tới {}: {}", toEmail, e.getMessage());
         }
     }
 }

@@ -17,17 +17,17 @@ spring:
       max-file-size: 500MB
       max-request-size: 500MB
 
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: vuhoangltv@gmail.com
-    password: ${MAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: vuhoangltv@gmail.com
+#    password: ${MAIL_PASSWORD}
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
 
   security:
     oauth2:
@@ -75,3 +75,9 @@ app:
 
 cookie:
   secure: true
+sendgrid:
+  api:
+    key: ${SENDGRID_API_KEY}
+  from:
+    email: lumixmovie@gmail.com
+    name: Lumix Team
