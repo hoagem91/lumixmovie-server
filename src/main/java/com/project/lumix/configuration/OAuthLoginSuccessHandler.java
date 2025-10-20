@@ -88,7 +88,7 @@ public class OAuthLoginSuccessHandler implements AuthenticationSuccessHandler {
                     .secure(cookieSecure)
                     .path("/")
                     .maxAge(Duration.ofSeconds(jwtValidDuration))
-                    .sameSite("Lax")
+                    .sameSite("None")
                     .build();
             response.addHeader("Set-Cookie", accessTokenCookie.toString());
 
