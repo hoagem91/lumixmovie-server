@@ -68,16 +68,14 @@ public class AuthenticationController {
                 .httpOnly(true)
                 .secure(COOKIE_SECURE)
                 .path("/")
-                .domain("localhost")
                 .maxAge(Duration.ofSeconds(VALID_DURATION))
-                .sameSite("Lax")
+                .sameSite("None")
                 .build();
 
         ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken)
                 .httpOnly(true)
                 .secure(COOKIE_SECURE)
                 .path("/")
-                .domain("localhost")
                 .maxAge(Duration.ofSeconds(REFRESH_DURATION))
                 .sameSite("None")
                 .build();

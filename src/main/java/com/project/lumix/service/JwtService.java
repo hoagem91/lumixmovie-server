@@ -45,13 +45,16 @@ public class JwtService {
     private String SIGNER_KEY;
 
     @Value("${jwt.valid-duration}")
-    private long VALID_DURATION; // seconds
+    private long VALID_DURATION;
 
     @Value("${jwt.refreshable-duration}")
-    private long REFRESH_DURATION; // seconds
+    private long REFRESH_DURATION;
 
     @Value("${cookie.secure}")
     private boolean COOKIE_SECURE;
+
+    @Value("${app.base-url")
+    private String BASE_URL;
 
     private static final String ACCESS_COOKIE_NAME = "accessToken";
     private static final String REFRESH_COOKIE_NAME = "refreshToken";
@@ -65,7 +68,7 @@ public class JwtService {
 
             JWTClaimsSet claims = new JWTClaimsSet.Builder()
                     .subject(user.getUsername())
-                    .issuer("http://localhost:8888")
+                    .issuer(BASE_URL)
                     .issueTime(iat)
                     .expirationTime(exp)
                     .jwtID(UUID.randomUUID().toString())
@@ -140,15 +143,13 @@ public class JwtService {
                 .secure(COOKIE_SECURE)
                 .path("/")
                 .maxAge(0)
-                .domain("localhost")
-                .sameSite("Lax")
+                .sameSite("None")
                 .build();
         ResponseCookie refreshCookie = ResponseCookie.from(REFRESH_COOKIE_NAME, "")
                 .httpOnly(true)
                 .secure(COOKIE_SECURE)
                 .path("/")
                 .maxAge(0)
-                .domain("localhost")
                 .sameSite("None")
                 .build();
 
@@ -187,16 +188,14 @@ public class JwtService {
                     .httpOnly(true)
                     .secure(COOKIE_SECURE)
                     .path("/")
-                    .domain("localhost")
                     .maxAge(Duration.ofSeconds(VALID_DURATION))
-                    .sameSite("Lax")
+                    .sameSite("None")
                     .build();
 
             ResponseCookie refreshTokenCookie = ResponseCookie.from(REFRESH_COOKIE_NAME, newRefreshToken)
                     .httpOnly(true)
                     .secure(COOKIE_SECURE)
                     .path("/")
-                    .domain("localhost")
                     .maxAge(Duration.ofSeconds(REFRESH_DURATION))
                     .sameSite("None")
                     .build();
