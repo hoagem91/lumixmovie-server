@@ -67,11 +67,11 @@ cloudinary:
 app:
   base-url: ${APP_BASE_URL:https://lumix-production.up.railway.app}
   frontend:
-    registration-result-url: ${FRONTEND_REGISTRATION_RESULT_URL:https://lumix-frontend.vercel.app/registration-pending}
+    registration-result-url: ${FRONTEND_REGISTRATION_RESULT_URL:https://localhost:4200/registration-pending}
   oauth2:
     redirect-url:
-      success: ${OAUTH_SUCCESS_URL:https://lumix-frontend.vercel.app/login-success}
-      error: ${OAUTH_ERROR_URL:https://lumix-frontend.vercel.app/login-error}
+      success: ${OAUTH_SUCCESS_URL:https://localhost:4200/login-success}
+      error: ${OAUTH_ERROR_URL:https://localhost:4200/login-error}
 
 cookie:
   secure: true
