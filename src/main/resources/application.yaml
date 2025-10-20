@@ -40,7 +40,7 @@ spring:
               - email
               - profile
               - openid
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            redirect-uri: "{baseUrl}/lumix/login/oauth2/code/{registrationId}"
         provider:
           google:
             issuer-uri: https://accounts.google.com
@@ -65,7 +65,7 @@ cloudinary:
   api-secret: ${CLOUDINARY_API_SECRET}
 
 app:
-  base-url: ${APP_BASE_URL:https://lumix-production.up.railway.app}
+  base-url: ${APP_BASE_URL:https://luminous-unity-production.up.railway.app}
   frontend:
     registration-result-url: ${FRONTEND_REGISTRATION_RESULT_URL:https://localhost:4200/registration-pending}
   oauth2:
