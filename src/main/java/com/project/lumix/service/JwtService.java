@@ -53,7 +53,7 @@ public class JwtService {
     @Value("${cookie.secure}")
     private boolean COOKIE_SECURE;
 
-    @Value("${app.base-url")
+    @Value("${app.base-url}")
     private String BASE_URL;
 
     private static final String ACCESS_COOKIE_NAME = "accessToken";
