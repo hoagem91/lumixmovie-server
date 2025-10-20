@@ -16,7 +16,7 @@ import java.io.IOException;
 @Service
 @Slf4j
 public class GmailService {
-    @Value("${sendgrid.api.from.email}")
+    @Value("${sendgrid.from.email}")
     private String fromEmail;
 
     @Value("${app.base-url}")
